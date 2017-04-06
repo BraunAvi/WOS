@@ -4,11 +4,11 @@ import time
 import os
 
 N = 500  # number of papers in batch (500 for run; 50, or ,ore for testting )
-years=[1971,1972,1973,1974]
+years=[1971]
 total_N_Papers_years = [26421, 26832,25759,26558]
 # 27462
 urlsWOS =[
-    'https://apps.webofknowledge.com/summary.do?product=WOS&doc=1&qid=2&SID=T2DnHQuMjC1akZGnO63&search_mode=AdvancedSearch&update_back2search_link_param=yes',
+    'https://apps.webofknowledge.com/summary.do?product=WOS&doc=1&qid=1&SID=T2N1dyBPOh3OszCV2wi&search_mode=AdvancedSearch&update_back2search_link_param=yes',
     'https://apps.webofknowledge.com/summary.do?product=WOS&doc=1&qid=3&SID=T2DnHQuMjC1akZGnO63&search_mode=AdvancedSearch&update_back2search_link_param=yes',
     'https://apps.webofknowledge.com/summary.do?product=WOS&doc=1&qid=5&SID=T2DnHQuMjC1akZGnO63&search_mode=AdvancedSearch&update_back2search_link_param=yes',
     'https://apps.webofknowledge.com/summary.do?product=WOS&doc=1&qid=7&SID=T2DnHQuMjC1akZGnO63&search_mode=AdvancedSearch&update_back2search_link_param=yes5',

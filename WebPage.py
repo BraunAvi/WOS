@@ -66,7 +66,7 @@ class WOSResultsPage(WebPage):
         self.url2scrape = ''
         self.df = []
 
-    def PrintX50Papers(self, firstPaper=1, lastPaper=500):
+    def PrintX50Papers(self, firstPaper=1, lastPaper=500,url=''):
         """
         'print' to page a batch of papers; usually 500, but can be less for last page
         returns the url of the 5000-papers print
@@ -86,12 +86,20 @@ class WOSResultsPage(WebPage):
         elem.click()
         elem.send_keys(lastPaper)
         elem.send_keys(Keys.ENTER)
-        while self.url2scrape ==old_url:
+        self.url2scrape = browser.current_url
+        # print 'url before handle switch is:',self.url2scrape
+        # print 'self.url:', self.url
+        browser.switch_to.window(browser.window_handles[1]) #handle 1 is the 50 papers results
+        print 'waiting for url...',
+        while self.url == self.url2scrape or self.url2scrape=='about:blank':
             sleep(0.5)
             self.url2scrape = self.browser.current_url
-        print 'waited for url',time()-s_time ,'sec'
-        browser.switch_to.window(browser.window_handles[1]) #handle 1 is the 50 papers results
-        sleep(7)
+            # print 'url during handle switch is:', self.url2scrape, len(self.url2scrape)
+        sleep(0.2)
+        print 'waited for url_50x ',time()-s_time ,'sec'
+        self.url2scrape = browser.current_url
+        # print 'url after  handle switch is:', self.url2scrape
+        # print self.url==self.url2scrape
         self.url2scrape = browser.current_url
         # print 'url_to_scrape:',self.url2scrape
         return self.url2scrape
@@ -109,7 +117,7 @@ class WOSResultsPage(WebPage):
         while self.url2scrape ==old_url:
             sleep(0.5)
             self.url2scrape = self.browser.current_url
-        print 'waited for url',time()-s_time ,'sec'
+        print 'waited for url _',time()-s_time ,'sec'
         return self.url2scrape
 
 
@@ -155,7 +163,7 @@ def collect_data_from_print(WOSPage,text_file_h,firstPaper=1,lastPaper=500):
 
     no_of_50X_pages=int(m.ceil((lastPaper-firstPaper+1)/50.)) # high range of number of pages
     print 'no_of_50X_pages=',no_of_50X_pages
-    WOSPage.PrintX50Papers(firstPaper=firstPaper,lastPaper=lastPaper) # print X papers; and return the URL of the new page
+    WOSPage.PrintX50Papers(firstPaper=firstPaper,lastPaper=lastPaper,url='') # print X papers; and return the URL of the new page
     for i in range (2,no_of_50X_pages+1): #start at 2 since the first page is already loaded
         print i-1,
         WOSPage.read_url_BS4(WOSPage.url2scrape) # print the text fo the 50-papers webpage; return self.fulltext
